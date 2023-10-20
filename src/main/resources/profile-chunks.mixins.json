@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.zly2006.profilechunks.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinServerWorld",
+    "MixinWorld"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
