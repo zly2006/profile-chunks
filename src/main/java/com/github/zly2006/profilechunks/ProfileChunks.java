@@ -100,7 +100,7 @@ public class ProfileChunks implements ModInitializer {
                                 context.getSource().sendError(Text.literal("No data for chunk " + chunk));
                                 return 0;
                             }
-                            context.getSource().sendError(Text.literal("Chunk " + chunk + " profiling data:"));
+                            context.getSource().sendMessage(Text.literal("Chunk " + chunkPos + " profiling data:"));
                             for (Map.Entry<String, Long> entry : map.entrySet()) {
                                 context.getSource().sendMessage(Text.literal(entry.getKey() + ": " + entry.getValue() / totalProfilingTicks / 1e6 + "ms"));
                             }
