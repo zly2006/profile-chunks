@@ -1,6 +1,6 @@
 package com.github.zly2006.profilechunks.mixin;
 
-import com.github.zly2006.profilechunks.profileChunks;
+import com.github.zly2006.profilechunks.ProfileChunks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluid;
@@ -22,8 +22,8 @@ public class MixinServerWorld {
             at = @At("HEAD")
     )
     private void beginTickBlock(BlockPos pos, Block block, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.start("block-scheduled-tick", ChunkPos.toLong(pos));
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.start("block-scheduled-tick", ChunkPos.toLong(pos));
         }
     }
 
@@ -32,8 +32,8 @@ public class MixinServerWorld {
             at = @At("RETURN")
     )
     private void endTickBlock(BlockPos pos, Block block, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.end("block-scheduled-tick", ChunkPos.toLong(pos));
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.end("block-scheduled-tick", ChunkPos.toLong(pos));
         }
     }
 
@@ -42,8 +42,8 @@ public class MixinServerWorld {
             at = @At("HEAD")
     )
     private void beginTickFluid(BlockPos pos, Fluid fluid, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.start("fluid-scheduled-tick", ChunkPos.toLong(pos));
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.start("fluid-scheduled-tick", ChunkPos.toLong(pos));
         }
     }
 
@@ -52,8 +52,8 @@ public class MixinServerWorld {
             at = @At("RETURN")
     )
     private void endTickFluid(BlockPos pos, Fluid fluid, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.end("fluid-scheduled-tick", ChunkPos.toLong(pos));
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.end("fluid-scheduled-tick", ChunkPos.toLong(pos));
         }
     }
 
@@ -62,8 +62,8 @@ public class MixinServerWorld {
             at = @At("HEAD")
     )
     private void beginTickChunk(WorldChunk chunk, int randomTickSpeed, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.start("random-tick", chunk.getPos().toLong());
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.start("random-tick", chunk.getPos().toLong());
         }
     }
 
@@ -72,8 +72,8 @@ public class MixinServerWorld {
             at = @At("RETURN")
     )
     private void endTickChunk(WorldChunk chunk, int randomTickSpeed, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.end("random-tick", chunk.getPos().toLong());
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.end("random-tick", chunk.getPos().toLong());
         }
     }
 
@@ -82,8 +82,8 @@ public class MixinServerWorld {
             at = @At("HEAD")
     )
     private void beginTickEntity(Entity entity, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.start("entity-tick", entity.getChunkPos().toLong());
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.start("entity-tick", entity.getChunkPos().toLong());
         }
     }
 
@@ -92,8 +92,8 @@ public class MixinServerWorld {
             at = @At("RETURN")
     )
     private void endTickEntity(Entity entity, CallbackInfo ci) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.end("entity-tick", entity.getChunkPos().toLong());
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.end("entity-tick", entity.getChunkPos().toLong());
         }
     }
 
@@ -102,8 +102,8 @@ public class MixinServerWorld {
             at = @At("HEAD")
     )
     private void beginProcessBlockEvent(BlockEvent event, CallbackInfoReturnable<Boolean> cir) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.start("block-event", ChunkPos.toLong(event.pos()));
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.start("block-event", ChunkPos.toLong(event.pos()));
         }
     }
 
@@ -112,8 +112,8 @@ public class MixinServerWorld {
             at = @At("RETURN")
     )
     private void endProcessBlockEvent(BlockEvent event, CallbackInfoReturnable<Boolean> cir) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.end("block-event", ChunkPos.toLong(event.pos()));
+        if (ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.end("block-event", ChunkPos.toLong(event.pos()));
         }
     }
 }

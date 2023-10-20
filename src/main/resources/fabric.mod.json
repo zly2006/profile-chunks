@@ -13,7 +13,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.zly2006.profilechunks.profileChunks"
+      "com.github.zly2006.profilechunks.ProfileChunks"
     ]
   },
   "mixins": [
@@ -22,6 +22,6 @@
   "depends": {
     "fabricloader": "*",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "~1.20"
   }
 }

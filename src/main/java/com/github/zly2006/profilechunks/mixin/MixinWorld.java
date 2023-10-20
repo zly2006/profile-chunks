@@ -1,47 +1,33 @@
 package com.github.zly2006.profilechunks.mixin;
 
-import com.github.zly2006.profilechunks.profileChunks;
+import com.github.zly2006.profilechunks.ProfileChunks;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.BlockEntityTickInvoker;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.Iterator;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(World.class)
 public class MixinWorld {
-    @Inject(
-            method = "tickBlockEntities",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/chunk/BlockEntityTickInvoker;tick()V",
-                    shift = At.Shift.BEFORE
-            ),
-            locals = LocalCapture.CAPTURE_FAILSOFT
-    )
-    private void beginTickBlockEntity(CallbackInfo ci, Profiler profiler, Iterator iterator, BlockEntityTickInvoker blockEntityTickInvoker) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.start("block-entity-tick", ChunkPos.toLong(blockEntityTickInvoker.getPos()));
-        }
-    }
+    @Shadow @Final public boolean isClient;
 
-    @Inject(
+    @Redirect(
             method = "tickBlockEntities",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/chunk/BlockEntityTickInvoker;tick()V",
-                    shift = At.Shift.AFTER
-            ),
-            locals = LocalCapture.CAPTURE_FAILSOFT
+                    target = "Lnet/minecraft/world/chunk/BlockEntityTickInvoker;tick()V"
+            )
     )
-    private void endTickBlockEntity(CallbackInfo ci, Profiler profiler, Iterator iterator, BlockEntityTickInvoker blockEntityTickInvoker) {
-        if (profileChunks.profilingTicks > 0) {
-            profileChunks.end("block-entity-tick", ChunkPos.toLong(blockEntityTickInvoker.getPos()));
+    private void tickBlockEntity(BlockEntityTickInvoker instance) {
+        if (!isClient && ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.start("block-entity-tick", ChunkPos.toLong(instance.getPos()));
+        }
+        instance.tick();
+        if (!isClient && ProfileChunks.profilingTicks > 0) {
+            ProfileChunks.end("block-entity-tick", ChunkPos.toLong(instance.getPos()));
         }
     }
 }
